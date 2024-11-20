@@ -1,0 +1,10 @@
+*.env
+dist/
+.terraform*
+.terraform
+
+terraform.tfvars
+
+data
+
+zipped

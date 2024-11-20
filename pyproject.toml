@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "src"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+
+[tool.poetry.dependencies]
+python = "^3.12"
+boto3 = "^1.35.64"
+pyspark = {extras = ["sql"], version = "^3.5.3"}
+awsglue-dev = "^2021.12.30"
+
+[tool.poetry.plugins.dotenv]
+ignore = "false"
+location = ".env"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

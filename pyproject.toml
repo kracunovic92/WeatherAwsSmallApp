@@ -10,10 +10,24 @@ python = "^3.12"
 boto3 = "^1.35.64"
 pyspark = {extras = ["sql"], version = "^3.5.3"}
 awsglue-dev = "^2021.12.30"
+python-dotenv = "^1.0.1"
+requests = "^2.32.3"
+coverage = "^7.6.7"
+
 
 [tool.poetry.plugins.dotenv]
 ignore = "false"
 location = ".env"
+
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+pytest-mock = "^3.14.0"
+
+[tool.pytest.ini_options]
+testpaths = ["."]
+
 
 [build-system]
 requires = ["poetry-core"]

@@ -8,3 +8,7 @@ terraform.tfvars
 data
 
 zipped
+
+.pytest*
+
+__pycache__

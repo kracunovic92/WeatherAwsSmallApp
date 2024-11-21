@@ -46,6 +46,10 @@ resource "aws_sqs_queue" "dlq" {
 output "notification_sqs_arn" {
     value = aws_sqs_queue.s3_notification_sqs.arn
 }
+output "notification_sqs_url" {
+  value = aws_sqs_queue.s3_notification_sqs.id
+  
+}
 output "dlq_arn" {
   value = aws_sqs_queue.dlq.arn
   

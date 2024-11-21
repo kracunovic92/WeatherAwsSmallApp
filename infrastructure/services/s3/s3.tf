@@ -23,6 +23,14 @@ resource "aws_s3_bucket_policy" "s3_policy" {
   
 }
 
+resource "aws_s3_bucket" "processed_data" {
+  bucket = var.procees_bucket_name
+
+  tags = {
+    Name = "Finalized Data"
+  }
+  
+}
 resource "aws_s3_bucket" "weather_bucket" {
 
     bucket =  var.weather_bucket_name
@@ -30,6 +38,21 @@ resource "aws_s3_bucket" "weather_bucket" {
     tags = {
         Name = "Weather"
     }
+  
+}
+
+resource "aws_s3_bucket" "script_bucket" {
+
+  bucket = var.script_bucket_name
+  tags = {
+    Name = "Script"
+  }
+  
+}
+resource "aws_s3_object" "proccess_data_script" {
+  bucket = aws_s3_bucket.script_bucket.bucket
+  key = "process_data.py"
+  source = "${path.root}/../src/scripts/process_data.py"
   
 }
 
@@ -44,6 +67,18 @@ resource "aws_s3_bucket_notification" "weather_notification" {
   depends_on = [var.sqs_notification_arn]
 }
 
+output "script_bucket_url" {
+  value = aws_s3_bucket.script_bucket.id
+  
+}
+output "script_bucket_arn" {
+  value = aws_s3_bucket.script_bucket.arn
+  
+}
+output "destination_bucket_url" {
+  value = aws_s3_bucket.processed_data.id
+  
+}
 
 output "source_name" {
     value = var.source_bucket_name
@@ -55,5 +90,9 @@ output "weather_bucket_name" {
 
 output "weather_bucket_arn" {
     value =  aws_s3_bucket.weather_bucket.arn
+  
+}
+output "weather_bucket_url" {
+  value = aws_s3_bucket.weather_bucket.id
   
 }

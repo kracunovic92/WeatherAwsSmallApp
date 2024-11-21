@@ -57,3 +57,9 @@ variable "lambda_configs" {
     }
   
 }
+
+variable "sqs_arn" {
+    type = string
+    nullable = false
+  
+}

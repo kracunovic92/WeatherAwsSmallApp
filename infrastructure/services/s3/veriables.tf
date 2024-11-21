@@ -25,3 +25,14 @@ variable "role_arn" {
   
 }
 
+variable script_bucket_name{
+    type = string
+    nullable = false
+}
+
+variable "procees_bucket_name" {
+    type = string
+    nullable = false
+  
+}
+

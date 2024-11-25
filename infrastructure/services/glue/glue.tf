@@ -3,6 +3,7 @@ resource "aws_glue_catalog_database" "catalog" {
   
 }
 
+
 resource "aws_glue_workflow" "data_processing_workflow" {
     name = var.glue_workflow_name
     description = "Workflow to orchestrate Glue tasks"

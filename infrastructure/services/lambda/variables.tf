@@ -24,11 +24,11 @@ variable "s3_target_name" {
 
 variable "city"{
     type = string
-    default = "Serbia"
+    default = "Belgrade"
 }
 variable "city_srb" {
     type = string
-    default = "Srbija"
+    default = "Beograd"
   
 }
 
@@ -59,6 +59,23 @@ variable "lambda_configs" {
 }
 
 variable "sqs_arn" {
+    type = string
+    nullable = false
+  
+}
+
+variable "API_ENDPOINT" {
+    type = string
+    nullable = false
+  
+}
+variable "API_KEY" {
+    type = string
+    nullable = false
+  
+}
+
+variable "REGION_NAME" {
     type = string
     nullable = false
   

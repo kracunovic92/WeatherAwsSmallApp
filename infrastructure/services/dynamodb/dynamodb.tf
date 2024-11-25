@@ -34,3 +34,15 @@ resource "aws_dynamodb_table" "file_status_table" {
 
   
 }
+
+
+output "table_name" {
+  value = var.dynamodb_table_name
+  
+}
+
+output "table_arn" {
+
+    value = aws_dynamodb_table.file_status_table.arn
+  
+}

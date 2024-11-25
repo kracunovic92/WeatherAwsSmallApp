@@ -9,36 +9,77 @@ resource "aws_iam_policy" "s3_policy" {
             Action = [
             "s3:PutObject",
             "s3:GetObject",
-            "s3:ListBucket"
+            "s3:ListBucket",
             ]
-            Resource = ["${var.s3_weather_bucket_arn}"]
+            Resource = "*"#["${var.s3_weather_bucket_arn}", "${var.s3_start_data_arn}"]
         }
         ]
     })
   
-
 }
 
-
-resource "aws_iam_policy" "glue_policy" {
-  name        = var.glue_policy_name
-  description = "Policy for Glue to access S3"
-  policy      = jsonencode({
-    Version = "2012-10-17"
+resource "aws_iam_policy" "lambda_dynamodb_policy" {
+  name        = "lambda-dynamodb-policy"
+  description = "Allow Lambda to write data to DynamoDB"
+  policy = jsonencode({
+    Version = "2012-10-17",
     Statement = [
       {
-        Action   = ["s3:GetObject", "s3:ListBucket"]
-        Effect   = "Allow"
-        Resource = ["${var.s3_weather_bucket_arn}/*", "${var.script_bucket_arn}/*"]
-      },
-      {
-        Action   = "glue:*"
-        Effect   = "Allow"
-        Resource = "*"
+        Effect   = "Allow",
+        Action   = [
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:GetItem",
+          "dynamodb:BatchWriteItem",
+          "dynamodb:BatchGetItem"
+        ],
+        Resource = "${var.dynamodb_table_arn}"
       }
     ]
   })
 }
+
+
+
+
+resource "aws_iam_policy" "glue_policy" {
+  name        = "glue-policy"
+  description = "Policy for Glue to access resources"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement: [
+      {
+        Effect: "Allow",
+        Action: [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:ListBucket"
+        ],
+        Resource: [
+          "*"
+        ]
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource: "arn:aws:logs:*:*:*"
+      },
+      {
+        Effect: "Allow",
+        Action: [
+          "glue:*"
+        ],
+        Resource: "*"
+      }
+    ]
+  })
+}
+
 
 resource "aws_iam_role_policy" "cloudwatch_event_policy" {
   name   = "cloudwatch-event-policy"
@@ -93,4 +134,23 @@ resource "aws_iam_policy" "lambda_secrets_policy" {
   })
 }
 
+
+resource "aws_iam_policy" "glue_logs_policy" {
+  name        = "glue-logs-policy"
+  description = "Policy for Glue to write logs to CloudWatch"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow",
+        Action   = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource = "arn:aws:logs:*"
+      }
+    ]
+  })
+}
 

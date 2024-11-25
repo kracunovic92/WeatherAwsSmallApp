@@ -16,6 +16,11 @@ variable "s3_weather_bucket_arn" {
     nullable = false
   
 }
+variable "s3_start_data_arn" {
+    type =  string
+    nullable = false
+  
+}
 
 variable "glue_role_name" {
     type = string
@@ -50,6 +55,12 @@ variable "sqs_arn" {
   
 }
 variable "sqs_url" {
+    type = string
+    nullable = false
+  
+}
+
+variable "dynamodb_table_arn" {
     type = string
     nullable = false
   

@@ -32,7 +32,8 @@ module "iam"{
     script_bucket_arn = module.s3.script_bucket_arn
     sqs_arn = module.sqs.notification_sqs_arn
     sqs_url = module.sqs.notification_sqs_url
-    
+    s3_start_data_arn = "arn:aws:s3:::nine-air-weather-data/*"
+    dynamodb_table_arn =module.dynamo.table_arn
 }
 
 module "lambda" {
@@ -43,6 +44,9 @@ module "lambda" {
     s3_target_name = module.s3.weather_bucket_name
     table_name = module.dynamo.table_name
     sqs_arn =  module.sqs.notification_sqs_arn
+    API_ENDPOINT = "https://rq5fbome43vbdgq7xoe7d6wbwa0ngkgr.lambda-url.eu-west-1.on.aws/"
+    API_KEY = "tourist_estimate_token"
+    REGION_NAME = "eu-west-1"
   
 }
 

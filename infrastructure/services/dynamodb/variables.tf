@@ -7,8 +7,3 @@ variable "dynamodb_table_name" {
   
 }
 
-output "table_name" {
-
-    value = var.dynamodb_table_name
-  
-}

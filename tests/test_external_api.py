@@ -1,7 +1,7 @@
 import pytest
 import requests
 from unittest.mock import Mock
-from externalAPI.python.get_visitor_data import get_tourist_for_day 
+from externalAPI.python.externalAPI.get_visitor_data import get_tourist_for_day 
 
 
 def test_get_tourist_for_day_success(mocker):

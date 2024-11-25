@@ -12,3 +12,20 @@ zipped
 .pytest*
 
 __pycache__
+bin
+boto3*
+botocore*
+certifi*
+dotenv*
+charset_*
+dateutil*
+idna*
+python_date*
+python_dot*
+requests*
+jmes*
+urlib*
+six-*
+s3transfer*
+urllib3*
+six.py

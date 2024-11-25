@@ -13,6 +13,7 @@ awsglue-dev = "^2021.12.30"
 python-dotenv = "^1.0.1"
 requests = "^2.32.3"
 coverage = "^7.6.7"
+setuptools = "^75.6.0"
 
 
 [tool.poetry.plugins.dotenv]

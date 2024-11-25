@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 import json
 load_dotenv()
 
+API = os.getenv('API_ENDPOINT')
+PARAM_NAME = os.getenv('KEY_API')
+REGION_NAME = os.getenv("KEY_REGION")
 
 def __get_api_token(params, region_name):
     '''
@@ -26,7 +29,7 @@ def __get_api_token(params, region_name):
     except Exception as e:
         raise f"Error while getting secret key: {e}"
 
-def get_tourist_for_day(date : str) -> requests.Response:
+def get_tourist_for_day(date : str, API, PARAM_NAME, REGION_NAME) -> requests.Response:
     '''
         Functions that gets tourist data from external API for given date:
         Request:
@@ -46,9 +49,10 @@ def get_tourist_for_day(date : str) -> requests.Response:
             "estimated_no_people": Int
             } 
     '''
-    API = os.getenv('API_ENDPOINT')
-    PARAM_NAME = os.getenv('KEY_API')
-    REGION_NAME = os.getenv("KEY_REGION")
+
+    API = API
+    PARAM_NAME = PARAM_NAME
+    REGION_NAME = REGION_NAME
 
     token = __get_api_token(PARAM_NAME,REGION_NAME)
     header = {

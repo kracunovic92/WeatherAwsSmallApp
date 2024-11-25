@@ -2,6 +2,10 @@ import boto3
 import json
 import os
 from datetime import datetime
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 dynamodb = boto3.resource('dynamodb')
 table =dynamodb.Table(os.environ['DYNAMODB_TABLE_NAME'])
@@ -17,8 +21,11 @@ def lambda_handler(event, context):
 
 
         key = s3_event['s3']['object']['key']
+        logger.info(f'Evnet key = {key}')
 
         if key.startswith(('pollution/','sensor/','weather')):
+
+            logger.info(f"Starting {key}")
 
             table.put_item(
                 Item = {
@@ -27,5 +34,6 @@ def lambda_handler(event, context):
                     'status': 0
                 }
             )
+            logger.info(f'Table info {table}')
     
     return {'statusCode': 200}

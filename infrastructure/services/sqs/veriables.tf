@@ -26,3 +26,9 @@ variable "bucket_arn" {
   type = string
   nullable = false
 }
+
+variable "sqs_write_name" {
+  type = string
+  nullable = false
+  
+}

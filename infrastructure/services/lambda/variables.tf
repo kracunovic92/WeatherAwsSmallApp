@@ -31,6 +31,11 @@ variable "city_srb" {
     default = "Beograd"
   
 }
+variable "sqs_write_arn" {
+    type = string
+    nullable = false
+  
+}
 
 variable "table_name" {
     type = string
@@ -63,6 +68,11 @@ variable "sqs_arn" {
     nullable = false
   
 }
+variable "write_sqs_url" {
+    type = string
+    nullable = false
+  
+}
 
 variable "API_ENDPOINT" {
     type = string
@@ -78,5 +88,10 @@ variable "API_KEY" {
 variable "REGION_NAME" {
     type = string
     nullable = false
+  
+}
+variable "source_folders" {
+    type = list(string)
+    default = [ "pollution", "sensor", "weather"]
   
 }

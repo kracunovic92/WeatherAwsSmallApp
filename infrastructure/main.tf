@@ -47,6 +47,8 @@ module "lambda" {
     API_ENDPOINT = "https://rq5fbome43vbdgq7xoe7d6wbwa0ngkgr.lambda-url.eu-west-1.on.aws/"
     API_KEY = "tourist_estimate_token"
     REGION_NAME = "eu-west-1"
+    sqs_write_arn = module.sqs.write_sqs_queue_arn
+    write_sqs_url = module.sqs.write_sqs_queue_url
   
 }
 
@@ -54,21 +56,13 @@ module "sqs" {
     source = "./services/sqs"
     bucket_name = module.s3.weather_bucket_name
     bucket_arn = module.s3.weather_bucket_arn
-  
+    sqs_write_name = "Write-Data-SQS"
 }
 module "dynamo"{
     source = "./services/dynamodb"
 }
 
-module "glue_crawler" {
-    source = "./services/glue_crawler"
 
-    role_glue_arn = module.iam.glue_role_arn
-    bucket_arn = module.s3.weather_bucket_arn
-    bucket_name = module.s3.weather_bucket_name
-    catalog_name = module.glue.catalog_name
-    bucket_url = module.s3.weather_bucket_url
-}
 module "glue"{
     source = "./services/glue"
 
@@ -80,15 +74,15 @@ module "glue"{
     source_bucket_url = module.s3.weather_bucket_url
     destination_bucket_url = module.s3.destination_bucket_url
     trigger_name = "job_trigger"
-    clawler_name = module.glue_crawler.crawler_name
     glue_workflow_name = "Weather Workflow"
+    catalog_table_names = [ "pollution", "sensor", "weather"]
 }
 
 module "cloud_watch" {
     source = "./services/cloud_watch"
     glue_job_arn = module.glue.job_arn
     cloudwatch_arn = module.iam.cloudwatch_event_role_arn
-    crawler_name =  module.glue_crawler.crawler_name
+    crawler_name =  module.glue.crawler_name
     completion_rule = "watch_crawler"
     glue_workflow_arn = module.glue.workflow_arn
 }

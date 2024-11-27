@@ -99,21 +99,24 @@ resource "aws_iam_role_policy" "cloudwatch_event_policy" {
 resource "aws_iam_policy" "lambda_sqs_policy" {
   name        = "lambda-sqs-policy"
   description = "Allow Lambda to interact with SQS"
-  policy =  data.aws_iam_policy_document.lambda_sqs_policy.json
+  policy      = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "sqs:SendMessage",
+          "sqs:ReceiveMessage",
+          "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes"
+          ]
+        Effect = "Allow"
+        Resource = "*"
+      }
+    ]
+  })
 }
 
 
-data "aws_iam_policy_document" "lambda_sqs_policy" {
-  statement {
-    actions   = ["sqs:ReceiveMessage", "sqs:DeleteMessage", "sqs:GetQueueAttributes"]
-    resources = ["${var.sqs_arn}"]
-  }
-
-  statement {
-    actions   = ["logs:*", "cloudwatch:*"]
-    resources = ["*"]
-  }
-}
 
 resource "aws_iam_policy" "lambda_secrets_policy" {
   name = "lambda_secrets_policy"

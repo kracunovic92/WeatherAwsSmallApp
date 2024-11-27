@@ -47,7 +47,9 @@ variable "trigger_name" {
     nullable = false
 }
 
-variable "clawler_name" {
-    type = string
-    nullable = false
+
+variable "catalog_table_names" {
+    type = list(string)
+    default = [ "pollution", "sensor", "weather"]
+  
 }

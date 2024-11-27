@@ -7,12 +7,12 @@ data "aws_iam_policy_document" "queue" {
       identifiers = ["s3.amazonaws.com"]
     }
 
-    actions = ["sqs:SendMessage"]
-    resources = [aws_sqs_queue.s3_notification_sqs.arn]
+    actions = ["sqs:SendMessage","sqs:ReciveMessage"]
+    resources = ["*"]
     condition {
       test     = "ArnEquals"
       variable = "aws:SourceArn"
-      values   = ["${var.bucket_arn}"]
+      values   = ["*"]
     }
 
   }
@@ -35,6 +35,7 @@ resource "aws_sqs_queue_policy" "sqs_policy" {
   policy = data.aws_iam_policy_document.queue.json
   
 }
+
 
 resource "aws_sqs_queue" "dlq" {
   name = var.sqs_deadq_name
